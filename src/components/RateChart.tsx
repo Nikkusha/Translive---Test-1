@@ -85,7 +85,7 @@ export default function RateChart({ data, filter, markupPct }: Props) {
             width={58}
           />
           <Tooltip
-            formatter={(value) => [formatEUR(Number(value)), 'Avg Rate']}
+            formatter={(value: unknown) => [formatEUR(Number(value)), 'Avg Rate']}
             labelFormatter={(label) => `Week: ${label}`}
             contentStyle={{
               borderRadius: 5,
