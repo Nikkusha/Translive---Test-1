@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import type { FreightRoute, TimeFilterState, RateType } from '../data/mockData';
 import RateChart from './RateChart';
 
