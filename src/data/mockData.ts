@@ -7,6 +7,18 @@ export type VehicleType = 'ტენტი' | 'რეფი' | 'მეგა';
 export type ShipmentType = 'ექსპორტი' | 'იმპორტი';
 
 export type RateType = 'client' | 'carrier';
+export type Currency = 'EUR' | 'GEL' | 'USD' | 'RUB';
+
+const CURRENCY_SYMBOLS: Record<Currency, string> = {
+  EUR: '€',
+  GEL: '₾',
+  USD: '$',
+  RUB: '₽',
+};
+
+export function formatCurrency(value: number, currency: Currency): string {
+  return `${CURRENCY_SYMBOLS[currency]}${value.toLocaleString()}`;
+}
 
 export interface FreightRoute {
   id: string;
@@ -20,6 +32,7 @@ export interface FreightRoute {
   vehicleType: VehicleType;
   shipmentType: ShipmentType;
   clientMarkupPct: number;
+  currency: Currency;
 }
 
 export interface SearchFilterState {
@@ -74,6 +87,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'ტენტი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 14,
+    currency: 'EUR',
   },
   {
     id: 'r2',
@@ -85,6 +99,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'ტენტი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 12,
+    currency: 'EUR',
   },
   {
     id: 'r3',
@@ -96,6 +111,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'რეფი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 18,
+    currency: 'USD',
   },
   {
     id: 'r4',
@@ -107,6 +123,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'ტენტი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 13,
+    currency: 'RUB',
   },
   {
     id: 'r5',
@@ -118,6 +135,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'მეგა',
     shipmentType: 'იმპორტი',
     clientMarkupPct: 16,
+    currency: 'GEL',
   },
   {
     id: 'r6',
@@ -129,6 +147,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'ტენტი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 11,
+    currency: 'EUR',
   },
   {
     id: 'r7',
@@ -140,6 +159,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'რეფი',
     shipmentType: 'იმპორტი',
     clientMarkupPct: 15,
+    currency: 'GEL',
   },
   {
     id: 'r8',
@@ -151,6 +171,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'რეფი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 20,
+    currency: 'USD',
   },
   {
     id: 'r9',
@@ -162,6 +183,7 @@ export const routes: FreightRoute[] = [
     vehicleType: 'მეგა',
     shipmentType: 'იმპორტი',
     clientMarkupPct: 17,
+    currency: 'USD',
   },
   {
     id: 'r10',
@@ -173,5 +195,6 @@ export const routes: FreightRoute[] = [
     vehicleType: 'ტენტი',
     shipmentType: 'ექსპორტი',
     clientMarkupPct: 13,
+    currency: 'RUB',
   },
 ];

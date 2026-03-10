@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import type { FreightRoute, TimeFilterState, RateType } from '../data/mockData';
+import type { FreightRoute, TimeFilterState, RateType, Currency } from '../data/mockData';
+import { formatCurrency } from '../data/mockData';
 import RateChart from './RateChart';
 
 interface Props {
@@ -12,7 +13,7 @@ function applyMarkup(rate: number, markupPct: number): number {
   return Math.round(rate * (1 + markupPct / 100));
 }
 
-function TrendBadge({ current, previous }: { current: number; previous: number }) {
+function TrendBadge({ current, previous, currency }: { current: number; previous: number; currency: Currency }) {
   const pct = ((current - previous) / previous) * 100;
   const isUp = pct > 0;
   const isFlat = Math.abs(pct) < 0.01;
@@ -21,7 +22,7 @@ function TrendBadge({ current, previous }: { current: number; previous: number }
   const [hovered, setHovered] = useState(false);
   const tooltipText = isFlat
     ? 'წინა კვირასთან შედარებით: ცვლილება არ არის'
-    : `წინა კვირასთან შედარებით:\n${sign}€${diff.toLocaleString()} (${sign}${pct.toFixed(1)}%)`;
+    : `წინა კვირასთან შედარებით:\n${sign}${formatCurrency(Math.abs(diff), currency)} (${sign}${pct.toFixed(1)}%)`;
 
   return (
     <div
@@ -164,13 +165,13 @@ export default function RouteCard({ route, filter, rateType }: Props) {
         <div style={{ textAlign: 'right', flexShrink: 0 }}>
           <p style={{ fontSize: 10, color: '#9CA3AF', marginBottom: 1 }}>Avg Rate</p>
           <p style={{ fontSize: 16, fontWeight: 700, color: '#111827' }}>
-            €{displayRate.toLocaleString()}
+            {formatCurrency(displayRate, route.currency)}
           </p>
         </div>
 
         {/* Trend */}
         <div style={{ flexShrink: 0 }}>
-          <TrendBadge current={displayRate} previous={displayPrev} />
+          <TrendBadge current={displayRate} previous={displayPrev} currency={route.currency} />
         </div>
 
         {/* Chevron */}
@@ -204,6 +205,7 @@ export default function RouteCard({ route, filter, rateType }: Props) {
               data={route.weeklyHistory}
               filter={filter}
               markupPct={markup}
+              currency={route.currency}
             />
           )}
         </div>

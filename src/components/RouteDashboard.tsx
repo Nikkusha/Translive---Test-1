@@ -125,7 +125,7 @@ export default function RouteDashboard() {
           )}
 
           <p style={{ textAlign: 'center', fontSize: 11, color: '#D1D5DB', marginTop: 20 }}>
-            Data refreshed weekly · Rates in EUR · Mock data for demo
+            Data refreshed weekly · Rates in EUR / GEL / USD / RUB · Mock data for demo
           </p>
         </main>
       </div>

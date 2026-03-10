@@ -7,12 +7,14 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import type { WeeklyRate, TimeFilterState } from '../data/mockData';
+import type { WeeklyRate, TimeFilterState, Currency } from '../data/mockData';
+import { formatCurrency } from '../data/mockData';
 
 interface Props {
   data: WeeklyRate[];
   filter: TimeFilterState;
   markupPct: number;
+  currency: Currency;
 }
 
 function weekToDate(weekStr: string): Date {
@@ -47,11 +49,7 @@ function formatWeek(w: string) {
   return parts.length === 2 ? `W${parts[1]}` : w;
 }
 
-function formatEUR(v: number) {
-  return `€${v.toLocaleString()}`;
-}
-
-export default function RateChart({ data, filter, markupPct }: Props) {
+export default function RateChart({ data, filter, markupPct, currency }: Props) {
   const raw = getVisibleData(data, filter);
   const visible = markupPct > 0
     ? raw.map((d) => ({ ...d, avgRate: Math.round(d.avgRate * (1 + markupPct / 100)) }))
@@ -78,14 +76,14 @@ export default function RateChart({ data, filter, markupPct }: Props) {
           />
           <YAxis
             domain={[yMin, yMax]}
-            tickFormatter={formatEUR}
+            tickFormatter={(v: number) => formatCurrency(v, currency)}
             tick={{ fontSize: 10, fill: '#9CA3AF' }}
             axisLine={false}
             tickLine={false}
             width={58}
           />
           <Tooltip
-            formatter={(value: unknown) => [formatEUR(Number(value)), 'Avg Rate']}
+            formatter={(value: unknown) => [formatCurrency(Number(value), currency), 'Avg Rate']}
             labelFormatter={(label) => `Week: ${label}`}
             contentStyle={{
               borderRadius: 5,
